@@ -13,6 +13,7 @@ $actor = array(
   'site_id' => NULL,
   'phy_person' => '0',
   'nationality' => NULL,
+  'language' => NULL,
   'small_entity' => '0',
   'address' => NULL,
   'country' => NULL,
