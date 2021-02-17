@@ -122,13 +122,13 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{ url('/renewal') }}" class="nav-link">
-                <i class="fas fa-clock"></i>
+                <i class="fas fa-clock nav-icon"></i>
                 <p>Open Tasks</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/fee') }}" class="nav-link">
-                <i class="fas fa-archive"></i>
+                <i class="fas fa-archive nav-icon"></i>
                 <p>All Tasks</p>
               </a>
             </li>
@@ -220,23 +220,22 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{ url('/renewal') }}" class="nav-link">
-                <i class="fas fa-file-invoice-dollar"></i>
+                <i class="fas fa-file-invoice-dollar nav-icon"></i>
                 <p>Invoices</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/fee') }}" class="nav-link">
-                <i class="fas fa-file-invoice"></i>
+                <i class="fas fa-file-invoice nav-icon"></i>
                 <p>Bills</p>
               </a>
             </li>
           </ul>
 
-
-
         @endcanany
         @canany(['admin', 'readwrite'])
         @can('admin')
+
         <!-- Tables -->
         <li class="nav-item menu">
           <a href="#" class="nav-link ">
@@ -272,6 +271,7 @@
               </a>
             </li>
           </ul>
+
         <!-- Tools -->
         <li class="nav-item menu">
           <a href="#" class="nav-link ">
@@ -286,19 +286,20 @@
 
             <li class="nav-item">
               <a href="{{ url('/document') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-envelope nav-icon"></i>
                 <p>Email Template Classes</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/template-member') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
+                <i class="fas fa-envelope-open-text nav-icon"></i>
                 <p>Email Templates</p>
               </a>
             </li>
           </ul>
           @endcan
           @endcan
+
         @endcanany
         @endcannot
     @endguest

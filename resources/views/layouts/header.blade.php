@@ -2,11 +2,11 @@
 <nav class="main-header navbar navbar-expand navbar-light">
   <!-- Left navbar links -->
   <ul class="navbar-nav">
-    <li class="nav-item">
+    <li class="nav-item text-dark">
       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="index3.html" class="nav-link">Home</a>
+      <a href={{ route('home') }} class="nav-link">Home</a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
       <a href="#" class="nav-link">Contact</a>
@@ -22,20 +22,17 @@
       <div class="navbar-search-block">
         <form class="form-inline">
           <div class="input-group input-group-med">
-            <input type="search" class="form-control form-control-navbar" id="matter-search" name="matter_search" placeholder="Search" autocomplete="off">
+            <input type="search" class="form-control form-control-navbar bg-white border border-secondary" id="matter-search" name="matter_search" placeholder="Search" autocomplete="on">
             <div class="input-group-append">
-              <select class="custom-select" id="matter-option" name="search_field">
+              <select class="custom-select border border-secondary" id="matter-option" name="search_field">
                 <option value="Ref" selected>Case reference</option>
                 <option value="Responsible">Responsible</option>
                 <option value="Title">Title</option>
                 <option value="Client">Client</option>
                 <option value="Applicant">Applicant</option>
               </select>
-              <button class="btn btn-navbar" type="submit">
+              <button class="btn btn-navbar bg-primary" type="submit">
                 <i class="fas fa-search"></i>
-              </button>
-              <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                <i class="fas fa-times"></i>
               </button>
             </div>
           </div>
@@ -128,6 +125,7 @@
         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
       </div>
     </li>
+    <!-- Fullscreen -->
     <li class="nav-item">
       <a class="nav-link" data-widget="fullscreen" href="#" role="button">
         <i class="fas fa-expand-arrows-alt"></i>
