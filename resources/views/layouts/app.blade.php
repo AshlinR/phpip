@@ -34,13 +34,7 @@
 <!-- /.control-sidebar -->
 
 <body class="hold-transition sidebar-mini layout-fixed">
-  <div class="wrapper">
 
-  <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-  </div>
-  <!-- /.Preloader -->
 
   <?php
   $page_title = ucfirst(preg_replace('/[\/]/s', '', ($_SERVER['REQUEST_URI'])));
@@ -65,31 +59,31 @@
     </div>
     <!-- /.content-header -->
 
-  <!-- Content Wrapper. Contains page content -->
-  <main class="container-fluid px-4">
-    @yield('content')
-    <div id="ajaxModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Ajax title placeholder</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
+    <!-- Content Wrapper. Contains page content -->
+    <main class="container-fluid px-4">
+      @yield('content')
+      <div id="ajaxModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Ajax title placeholder</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <span id="footerAlert" class="alert float-left"></span>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="modal-body">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <span id="footerAlert" class="alert float-left"></span>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
 <!-- /.content-wrapper -->
 <script>
     var contentSrc = "", // Identifies what to display in the Ajax-filled modal. Updated according to the href attribute used for triggering the modal
