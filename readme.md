@@ -6,3 +6,5 @@ I'm integrating an open source bootstrap theme from https://adminlte.io/ and ada
 
 Once phpIP is functional with the new theme (and looking good) I'll move onto functionality.
 
+Have left welcome blade for now but have made login a splash page and logout via sidebar menu.
+
