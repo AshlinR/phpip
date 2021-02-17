@@ -158,7 +158,7 @@
           @endcanany
         </div>
       </div>
-      <div class="card" id="tasklist">
+      <div class="card-body p-2" id="tasklist">
         {{-- Placeholder --}}
       </div>
     </div>
@@ -199,7 +199,7 @@
         </div>
       </div>
 
-      <div class="card-body p-1" id="renewallist">
+      <div class="card-body p-2" id="renewallist">
         {{-- Placeholder --}}
       </div>
     </div>

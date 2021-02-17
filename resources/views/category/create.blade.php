@@ -19,3 +19,7 @@
   </fieldset>
   <button type="button" id="createCategorySubmit" class="btn btn-primary">Create category</button><br>
 </form>
+
+@endsection
+
+@section('script')

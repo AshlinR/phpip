@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <form id="createClassForm">
   <fieldset>
     <legend>New class</legend>
@@ -22,3 +25,4 @@
 
   <button type="button" class="btn btn-danger" id="createClassSubmit" data-redirect="/documents">Create class</button><br>
 </form>
+@endsection

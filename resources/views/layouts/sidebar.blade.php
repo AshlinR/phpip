@@ -63,7 +63,7 @@
            </li>
          </ul>
 
-         <!-- Matters -->
+        <!-- Matters -->
         <li class="nav-item menu">
           <a href="#" class="nav-link ">
             <i class="nav-icon fas fa-folder"></i>
@@ -208,6 +208,30 @@
             </li>
           </ul>
 
+        <!-- Documents -->
+        <li class="nav-item menu">
+          <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-book"></i>
+            <p>
+              Documents
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ url('/documents') }}" class="nav-link">
+                <i class="fas fa-book-open nav-icon"></i>
+                <p>Documents</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/documents/create?operation=new" class="nav-link">
+                <i class="fas fa-book-medical nav-icon"></i>
+                <p>New Document</p>
+              </a>
+            </li>
+          </ul>
+
         <!-- Financial -->
         <li class="nav-item menu">
           <a href="#" class="nav-link ">
@@ -232,16 +256,66 @@
             </li>
           </ul>
 
+        <!-- Jurisdictions -->
+        <li class="nav-item menu">
+          <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-globe"></i>
+            <p>
+              Jurisdictions
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{ url('/renewal') }}" class="nav-link">
+                <i class="fas fa-flag nav-icon"></i>
+                <p>Table</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/fee') }}" class="nav-link">
+                <i class="fas fa-file-invoice nav-icon"></i>
+                <p>Bills</p>
+              </a>
+            </li>
+          </ul>
+
+        <!-- Templates -->
+        <li class="nav-item menu">
+          <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-file-alt"></i>
+            <p>
+              Templates
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            @can('admin')
+
+            <li class="nav-item">
+              <a href="{{ url('/document') }}" class="nav-link">
+                <i class="fas fa-envelope nav-icon"></i>
+                <p>Email Template Classes</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/template-member') }}" class="nav-link">
+                <i class="fas fa-envelope-open-text nav-icon"></i>
+                <p>Email Templates</p>
+              </a>
+            </li>
+          </ul>
+
         @endcanany
         @canany(['admin', 'readwrite'])
         @can('admin')
 
-        <!-- Tables -->
+        <!-- Admin -->
         <li class="nav-item menu">
           <a href="#" class="nav-link ">
-            <i class="nav-icon fas fa-table"></i>
+            <i class="nav-icon fas fa-tools"></i>
             <p>
-              Tables
+              Admin
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
@@ -271,35 +345,8 @@
               </a>
             </li>
           </ul>
-
-        <!-- Tools -->
-        <li class="nav-item menu">
-          <a href="#" class="nav-link ">
-            <i class="nav-icon fas fa-tools"></i>
-            <p>
-              Tools
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            @can('admin')
-
-            <li class="nav-item">
-              <a href="{{ url('/document') }}" class="nav-link">
-                <i class="fas fa-envelope nav-icon"></i>
-                <p>Email Template Classes</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ url('/template-member') }}" class="nav-link">
-                <i class="fas fa-envelope-open-text nav-icon"></i>
-                <p>Email Templates</p>
-              </a>
-            </li>
-          </ul>
-          @endcan
-          @endcan
-
+        @endcan
+        @endcan
         @endcanany
         @endcannot
     @endguest

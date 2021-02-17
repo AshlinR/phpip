@@ -1,3 +1,7 @@
+@extends('layouts.app')
+
+@section('content')
+
 <form id="createActorForm">
 	<fieldset>
     <table class="table table-borderless">
@@ -49,3 +53,4 @@
   </fieldset>
 	<button type="button" id="createActorSubmit" class="btn btn-primary btn-block">Create</button>
 </form>
+@endsection

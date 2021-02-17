@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <form id="createClassifierTypeForm">
   <fieldset>
     <table class="table table-sm">
@@ -24,3 +27,4 @@
   </fieldset>
   <button type="button" id="createClassifierTypeSubmit" class="btn btn-primary">Create type</button><br>
 </form>
+@endsection
