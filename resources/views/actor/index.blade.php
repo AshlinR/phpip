@@ -14,9 +14,9 @@
             <td><input class="form-control form-control-sm" name="Name" placeholder="Name" value="{{ Request::get('Name') }}"></td>
             <td>First name</td>
             <td>Display name</td>
-            <td>Company <span class="float-right">Person</span></td>
+            <td>Company</td>
             <td>
-              <select id="person" class="custom-select custom-select-sm px-0" name="selector">
+              <select id="person" class="custom-select" name="selector">
                 <option value="" selected>All</option>
                 <option value="phy_p">Physical</option>
                 <option value="leg_p">Legal</option>
@@ -52,18 +52,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="col-4">
-    <div class="card border-info">
-      <div class="card-header bg-info text-light">
-        Actor information
-      </div>
-      <div class="card-body p-2" id="ajaxPanel">
-        <div class="alert alert-info" role="alert">
-          Click on actor name to view and edit details
-        </div>
-      </div>
     </div>
   </div>
 </div>

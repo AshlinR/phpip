@@ -7,6 +7,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
 
 @extends('layouts.app')
 
+
 @section('content')
 <div class="row card-deck mb-1">
   <div id="refsPanel" class="card border-primary col-3 p-0">
@@ -15,8 +16,8 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
       ({{ $matter->category->category }})
       @canany(['admin', 'readwrite'])
       <a class="bg-primary text-white float-right hidden-action"
-         data-toggle="modal" data-target="#ajaxModal" href="/matter/{{ $matter->id }}/edit" title="Advanced matter edition">
-        &#9998;
+         data-toggle="modal" data-target="#ajaxModal" href="/matter/{{ $matter->id }}/edit" title="Edit Matter">
+        <i class="fas fa-edit"></i>
       </a>
       @endcanany
     </div>
@@ -47,7 +48,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
         <dd class="col-8">{{ Carbon\Carbon::parse($matter->expire_date)->isoFormat('L') }}</dd>
         @endif
       </dl>
-      <div class="alert alert-info text-center py-1 mb-0">
+      <div class="alert alert-secondary text-center py-1 mb-0">
         <b>Responsible:</b>
         {{$matter->responsible}}
       </div>
@@ -55,14 +56,14 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
     <div class="card-footer p-1">
       @canany(['admin', 'readwrite'])
       <div class="btn-group btn-block">
-        <a class="btn btn-info btn-sm" href="/matter/create?matter_id={{ $matter->id }}&operation=child" data-toggle="modal" data-target="#ajaxModal" data-size="modal-sm" title="Create child {{ $matter->category->category }}">
-          &oplus; New Child
+        <a class="btn bg-secondary btn-sm" href="/matter/create?matter_id={{ $matter->id }}&operation=child" data-toggle="modal" data-target="#ajaxModal" data-size="modal-sm" title="Create child {{ $matter->category->category }}">
+          <i class="fas fa-baby"></i> New Child
         </a>
-        <a class="btn btn-info btn-sm" href="/matter/create?matter_id={{ $matter->id }}&operation=clone" data-toggle="modal" data-target="#ajaxModal" data-size="modal-sm" title="Clone {{ $matter->category->category }}">
-          &boxbox; Clone
+        <a class="btn btn-secondary btn-sm" href="/matter/create?matter_id={{ $matter->id }}&operation=clone" data-toggle="modal" data-target="#ajaxModal" data-size="modal-sm" title="Clone {{ $matter->category->category }}">
+          <i class="fas fa-clone"></i> Clone
         </a>
-        <a class="btn btn-info btn-sm {{ $matter->countryInfo->goesnational ? '' : 'disabled' }}" href="/matter/{{ $matter->id }}/createN" data-toggle="modal" data-target="#ajaxModal" data-size="modal-sm" title="Enter {{ $matter->category->category }} in national phase">
-          &#9872; Nat. Phase
+        <a class="btn bg-secondary btn-sm {{ $matter->countryInfo->goesnational ? '' : 'disabled' }}" href="/matter/{{ $matter->id }}/createN" data-toggle="modal" data-target="#ajaxModal" data-size="modal-sm" title="Enter {{ $matter->category->category }} in national phase">
+          <i class="fas fa-globe"></i> Nat. Phase
         </a>
       </div>
       @endcanany
@@ -82,21 +83,26 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
         @endforeach
       @endforeach
       <div>
-        <a class="badge badge-pill badge-primary float-right" role="button" data-toggle="collapse" href="#addTitleCollapse">+</a>
+        <a class="btn btn-sm btn-primary hidden-action float-left" role="button" data-toggle="collapse" href="#addTitleCollapse">
+          <i class="fas fa-plus-square"></i>
+        </a>
+
       </div>
       <div id="addTitleCollapse" class="collapse">
-        <form id="addTitleForm" autocomplete="off">
+        <form id="addTitleForm" autocomplete="on">
           <div class="form-row">
             <input type="hidden" name="matter_id" value="{{ $matter->container_id ?? $matter->id }}">
             <div class="col-2">
               <input type="hidden" name="type_code">
-              <input type="text" class="form-control form-control-sm" data-ac="/classifier-type/autocomplete/1" data-actarget="type_code" data-aclength="0" placeholder="Type" autocomplete="off">
+              <input type="text" class="form-control form-control-sm" data-ac="/classifier-type/autocomplete/1" data-actarget="type_code" data-aclength="0" placeholder="Type" autocomplete="on">
             </div>
             <div class="col-10">
               <div class="input-group">
                 <input type="text" class="form-control form-control-sm" name="value" placeholder="Value" autocomplete="off">
                 <div class="input-group-append">
-                  <button type="button" class="btn btn-primary btn-sm" id="addTitleSubmit">&check;</button>
+                  <button type="button" class="btn btn-sm btn-success" id="addTitleSubmit">
+                    <i class="fas fa-check"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -113,30 +119,30 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
 </div>
 
 <div class="row card-deck">
-  <div id="actorPanel" class="card col-3 border-secondary p-0" style="max-height: 600px">
-    <div class="card-header reveal-hidden text-white bg-secondary p-1">
+  <div id="actorPanel" class="card col-3 border-primary p-0" style="max-height: 600px">
+    <div class="card-header reveal-hidden text-white bg-primary p-1">
       Actors
       @canany(['admin', 'readwrite'])
-      <a class="badge badge-pill badge-light hidden-action float-right" data-toggle="popover" href="javascript:void(0)" title="Add Actor">
-        &plus;
+      <a class="btn btn-sm hidden-action float-right" data-toggle="popover" href="javascript:void(0)" title="Add Actor">
+        <i class="fas fa-user-plus"></i>
       </a>
       @endcanany
     </div>
     <div class="card-body bg-light p-1" style="overflow: auto;">
       @foreach ( $actors as $role_name => $role_group )
-      <div class="card reveal-hidden border-secondary mb-1">
-        <div class="card-header bg-primary text-light p-1">
+      <div class="card reveal-hidden border-success mb-1">
+        <div class="card-header bg-secondary text-light p-1">
           {{ $role_name }}
           @canany(['admin', 'readwrite'])
-          <a class="hidden-action float-right text-light font-weight-bold ml-3" data-toggle="popover" title="Add {{ $role_name }}"
+          <a class="btn-sm hidden-action float-right text-light font-weight-bold" data-toggle="popover" title="Add {{ $role_name }}"
              data-role_name="{{ $role_name }}"
              data-role_code="{{ $role_group->first()->role_code }}"
              data-shareable="{{ $role_group->first()->shareable }}"
              href="javascript:void(0)">
-            &oplus;
+            <i class="fas fa-user-plus"></i>
           </a>
-          <a class="hidden-action float-right text-light font-weight-bold" data-toggle="modal" data-target="#ajaxModal" data-size="modal-lg" title="Edit actors in {{ $role_group->first()->role_name }} group" href="/matter/{{ $matter->id }}/roleActors/{{ $role_group->first()->role_code }}">
-            &#9998;
+          <a class="btn-sm hidden-action float-right text-light font-weight-bold" data-toggle="modal" data-target="#ajaxModal" data-size="modal-lg" title="Edit actors in {{ $role_group->first()->role_name }} group" href="/matter/{{ $matter->id }}/roleActors/{{ $role_group->first()->role_code }}">
+            <i class="fas fa-user-edit"></i>
           </a>
           @endcanany
         </div>
@@ -184,7 +190,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
             <span class="col-4">
               Number
               <span class="hidden-action float-right">
-                &equiv;
+                <i class="fas fa-caret-square-down"></i>
               </span>
             </span>
           </a>
@@ -216,7 +222,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
         <div class="card-header {{ $matter->tasksPending->count() ? 'text-warning' : 'text-light' }} p-1 bg-primary">
           Open Tasks Due
           <a class="text-warning text-decoration-none hidden-action float-right stretched-link" href="/matter/{{ $matter->id }}/tasks" data-toggle="modal" data-target="#ajaxModal" data-size="modal-lg" title="All tasks"><span class="">
-            &equiv;
+            <i class="fas fa-caret-square-down"></i>
           </a>
         </div>
         <div class="card-body p-1" id="opentask-panel" style="overflow: auto;">
@@ -234,7 +240,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
         <div class="card-header {{ $matter->renewalsPending->count() ? 'text-warning' : 'text-light' }} p-1 bg-primary">
           Renewals Due
           <a class="text-warning text-decoration-none hidden-action float-right stretched-link" href="/matter/{{ $matter->id }}/renewals" data-toggle="modal" data-target="#ajaxModal" data-size="modal-lg" title="All renewals">
-            &equiv;
+            <i class="fas fa-caret-square-down"></i>
           </a>
         </div>
         <div class="card-body p-1" id="renewal-panel" style="overflow: auto;">
@@ -252,7 +258,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
             <div class="col">
               Classifiers
               <span class="hidden-action float-right">
-                &equiv;
+                <i class="fas fa-caret-square-down"></i>
               </span>
             </div>
           </a>
@@ -294,9 +300,9 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
         </div>
       </div>
       <div class="card border-info col-4 p-0">
-        <div class="card-header bg-info text-white p-1">
+        <div class="card-header bg-primary text-white p-1">
           Related Matters
-          <span class="float-right">&#9432;</span>
+          <span class="float-right"><i class="fas fa-info-circle"></i></span>
         </div>
         <div class="card-body p-1" id="relationsPanel" style="overflow: auto;">
           @if ( $matter->family->count() )
@@ -324,7 +330,7 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
     </div>
     <div class="row card-deck">
       <div class="card border-secondary col-10 p-0" style="min-height: 100px;">
-        <div class="card-header p-1 bg-secondary text-light">
+        <div class="card-header p-1 bg-primary text-light">
           Notes
         </div>
         <div class="card-body p-1" style="overflow: auto;">
@@ -399,9 +405,13 @@ $linkedBy = $matter->linkedBy->groupBy('type_code');
          <label class="form-check-label" for="actorNotShared">Add to this matter only (not shared)</label>
        </div>
      </div>
-     <div class="btn-group" role="group">
-       <button type="button" class="btn btn-info btn-sm" id="addActorSubmit">&check;</button>
-       <button type="button" class="btn btn-outline-info btn-sm" id="popoverCancel">&times;</button>
+     <div class="btn-toolbar" role="group">
+       <button type="button" class="btn btn-success btn-sm" id="addActorSubmit">
+         <i class="fas fa-check"></i>
+       </button>
+       <button type="button" class="btn btn-danger btn-sm" id="popoverCancel">
+         <i class="fas fa-times"></i>
+       </button>
      </div>
      <div class="alert alert-danger d-none" role="alert"></div>
    </form>
