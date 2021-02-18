@@ -18,9 +18,6 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <!-- Scripts -->
-  <script src="{{ asset('js/app.js') }}"></script>
-
 </head>
 
 <!-- sidebar -->
@@ -610,6 +607,7 @@
     });
   </script>
 @yield('script')
+
 
 
 

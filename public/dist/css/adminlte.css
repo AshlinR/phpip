@@ -27,7 +27,6 @@
   --primary: #007bff;
   --secondary: #6c757d;
   --success: #28a745;
-  --hot: #FF5733;
   --info: #17a2b8;
   --warning: #ffc107;
   --danger: #dc3545;
@@ -72,6 +71,50 @@ body {
 
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
+}
+
+// Show/hide elements upon hovering
+.hidden-action {
+    display: none;
+}
+.reveal-hidden:hover .hidden-action {
+    display: inline-block;
+}
+
+// Clear all input field formatting for in-place edition fields
+.noformat {
+    border: none;
+    border-radius: 0;
+    background: inherit;
+    color: inherit;
+    padding: 0px;
+    height: inherit;
+    display: inline;
+    box-shadow: none;
+}
+
+//jquery-ui to Bootstrap
+/* Bootstrap uses a tag in selector and we use a div */
+.ui-menu-item-wrapper {
+  display: block;
+  clear: both;
+  font-weight: 400;
+  color: #333;
+  white-space: nowrap;
+  position: relative;
+  cursor: pointer;
+}
+
+/* UI utility class to accessibly hide an input */
+.ui-helper-hidden-accessible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 hr {
@@ -1793,28 +1836,6 @@ pre code {
 .table-hover .table-success:hover > td,
 .table-hover .table-success:hover > th {
   background-color: #b1dfbb;
-}
-
-.table-hot,
-.table-hot > th,
-.table-hot > td {
-  background-color: #c3e6cb;
-}
-
-.table-hot th,
-.table-hot td,
-.table-hot thead th,
-.table-hot tbody + tbody {
-  border-color: #8fd19e;
-}
-
-.table-hot .table-success:hover {
-  background-color: #D1482A;
-}
-
-.table-hot .table-success:hover > td,
-.table-hot .table-success:hover > th {
-  background-color: #D1482A;
 }
 
 .table-info,
@@ -5417,20 +5438,6 @@ a.badge-dark:focus, a.badge-dark.focus {
 }
 
 .alert-info .alert-link {
-  color: #062c33;
-}
-
-.alert-hot {
-  color: #FF5B37;
-  background-color: #FF5B37;
-  border-color: #FF5B37;
-}
-
-.alert-hot hr {
-  border-top-color: #abdde5;
-}
-
-.alert-hot .alert-link {
   color: #062c33;
 }
 
