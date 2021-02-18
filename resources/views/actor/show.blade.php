@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
 <div class="card overflow-auto" style="height: 800px;">
   <div class="nav nav-pills" role="tablist">
     <a class="nav-item nav-link active" data-toggle="tab" href="#actorMain" role="tab">Main</a>
@@ -141,9 +139,3 @@
     </div>
   </div>
 </div>
-
-@stop
-
-@section('script')
-
-@stop

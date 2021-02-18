@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<legend class="text-light">
+<legend class="text-primary">
     Actors
     <a href="actor/create" class="btn btn-primary float-right" data-toggle="modal" data-target="#ajaxModal" title="Create Actor">Create actor</a>
 </legend>
@@ -11,18 +11,18 @@
       <table class="table table-striped table-hover table-sm col">
         <thead>
           <tr id="filterFields" class="bg-primary text-light">
-            <td><input class="form-control form-control-sm" name="Name" placeholder="Name" value="{{ Request::get('Name') }}"></td>
-            <td>First name</td>
-            <td>Display name</td>
-            <td>Company</td>
-            <td>
-              <select id="person" class="custom-select" name="selector">
+            <th class="border-top-0"><input class="form-control form-control-sm" name="Name" placeholder="Name" value="{{ Request::get('Name') }}"></th>
+            <th class="align-middle border-top-0">First name</th>
+            <th class="align-middle border-top-0">Display name</th>
+            <th class="align-middle text-center border-top-0">Company <span class="float-right">Person</span></th>
+            <th class="border-top-0">
+              <select id="person" class="custom-select custom-select-sm px-0" name="selector">
                 <option value="" selected>All</option>
                 <option value="phy_p">Physical</option>
                 <option value="leg_p">Legal</option>
                 <option value="warn">Warn</option>
               </select>
-            </td>
+            </th>
           </tr>
         </thead>
         <tbody id="actorList">
@@ -52,6 +52,18 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card border-info">
+      <div class="card-header bg-info text-light">
+        Actor information
+      </div>
+      <div class="card-body p-2" id="ajaxPanel">
+        <div class="alert alert-info" role="alert">
+          Click on actor name to view and edit details
+        </div>
+      </div>
     </div>
   </div>
 </div>

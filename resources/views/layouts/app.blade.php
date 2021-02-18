@@ -60,12 +60,16 @@
     </div>
     <!-- /.content-header -->
 
+
+
     <!-- Content Wrapper. Contains page content -->
     <main class="container-fluid px-4">
       @yield('content')
+
+      <!-- Modal content-->
       <div id="ajaxModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-          <!-- Modal content-->
+
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Ajax title placeholder</h4>
