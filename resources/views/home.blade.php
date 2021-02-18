@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
 <!-- /.content -->
 <div class="content">
   <div class="container-fluid">
@@ -11,14 +9,11 @@
       <div class="col-lg-6">
         <div class="card">
           <div class="card-header border-0">
-            <h3 class="card-title">Stats</h3>
+            <h3 class="card-title">Matter Categories</h3>
               @canany(['admin', 'readwrite'])
               <div class="card-tools">
-                <a class="btn btn-tool btn-sm" href="/matter/create?operation=new">
-                  <i class="fas fa-download"></i>
-                </a>
-                <a href="#" class="btn btn-tool btn-sm">
-                  <i class="fas fa-bars"></i>
+                <a class="btn btn-primary btn-sm" href="/matter/create?operation=new" title="Create New Matter" data-target="#ajaxModal" data-toggle="modal" data-size="modal-sm">
+                  <i class="fas fa-plus"></i>
                 </a>
               </div>
               @endcanany
@@ -39,8 +34,8 @@
                     </td>
                     <td class="py-0">
                       @canany(['admin', 'readwrite'])
-                      <a class="btn btn-primary btn-sm hidden-action float-right" href="/matter/create?operation=new&category={{$group->category_code}}" data-target="#ajaxModal" title="Create {{ $group->category }}" data-toggle="modal" data-size="modal-sm">
-                        <i class="fas fa-plus-circle"></i>
+                      <a class="btn btn-sm btn-tool hidden-action float-right" href="/matter/create?operation=new&category={{$group->category_code}}" data-target="#ajaxModal" title="Create {{ $group->category }}" data-toggle="modal" data-size="modal-sm">
+                        <i class="fas fa-plus"></i>
                       </a>
                       @endcanany
                     </td>

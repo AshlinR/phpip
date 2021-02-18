@@ -35,12 +35,13 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-
+<!-- Temp to help navigate and locate stuff. -->
   <?php
   $page_title = ucfirst(preg_replace('/[\/]/s', '', ($_SERVER['REQUEST_URI'])));
   ?>
+
 <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div id="app" class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
@@ -604,7 +605,7 @@
       dragItem = "";
     });
   </script>
-  @yield('script')
+@yield('script')
 
 
 
@@ -614,8 +615,6 @@
 
 </div>
 <!-- ./wrapper -->
-
-
 
 </body>
 </html>
