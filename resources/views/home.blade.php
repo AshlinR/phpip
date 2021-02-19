@@ -51,10 +51,10 @@
                 <h3 class="card-title">Tasks</h3>
                   @canany(['admin', 'readwrite'])
                   <div class="card-tools">
-                    <a class="btn btn-tool btn-sm" href="/matter/create?operation=new" data-target="#ajaxModal" data-toggle="modal" data-size="modal-sm">
-                      <i class="fas fa-download"></i>
+                    <a class="btn btn-primary btn-sm" href="/matter/create?operation=new" data-target="#ajaxModal" data-toggle="modal" data-size="modal-sm">
+                      <i class="fas fa-plus "></i>
                     </a>
-                    <a href="#" class="btn btn-tool btn-sm">
+                    <a href="#" class="btn btn-primary btn-sm">
                       <i class="fas fa-bars"></i>
                     </a>
                   </div>

@@ -1,3 +1,10 @@
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
+<body class="hold-transition sidebar-mini layout-fixed">
+
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar bg-default sidebar-light-primary elevation-4">
   <!-- Brand Logo -->
@@ -121,7 +128,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ url('/renewal') }}" class="nav-link">
+              <a href="{{ url('/task/list') }}" class="nav-link">
                 <i class="fas fa-clock nav-icon"></i>
                 <p>Open Tasks</p>
               </a>

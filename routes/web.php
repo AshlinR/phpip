@@ -11,6 +11,7 @@
   |
  */
 
+use App\Task;
 use App\Matter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('renewal/lapsing', 'RenewalController@lapsing');
     Route::get('renewal/export', 'RenewalController@export');
     Route::get('logs', 'RenewalController@logs');
+
+
+    Route::get('task/list', 'taskController@list');
 
     Route::post('document/mailto/{member}', 'DocumentController@mailto');
     Route::get('document/select/{matter}', 'DocumentController@select');

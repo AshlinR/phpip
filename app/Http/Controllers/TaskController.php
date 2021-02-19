@@ -18,6 +18,15 @@ class TaskController extends Controller
         return view('task.index', compact('tasks', 'isrenewals'));
     }
 
+    public function list(Request $request)
+    {
+      $task = new Task;
+      $isrenewals = $request->isrenewals;
+      $tasks = $task->openTasks($isrenewals, $request->what_tasks, $request->user_dashboard)->simplePaginate(18);
+      $tasks->appends($request->input())->links(); // Keep URL parameters in the paginator links
+      return view('task.list', compact('tasks', 'isrenewals'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

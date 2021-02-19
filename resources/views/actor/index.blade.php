@@ -16,7 +16,7 @@
             <th class="align-middle border-top-0">Display name</th>
             <th class="align-middle text-center border-top-0">Company <span class="float-right">Person</span></th>
             <th class="border-top-0">
-              <select id="person" class="custom-select custom-select-sm px-0" name="selector">
+              <select id="person" class="custom-select custom-select-sm" name="selector">
                 <option value="" selected>All</option>
                 <option value="phy_p">Physical</option>
                 <option value="leg_p">Legal</option>
