@@ -11,20 +11,22 @@
     }
 
     filterFields.addEventListener('input', debounce( e => {
-        if (e.target.value.length === 0) {
-            url.searchParams.delete(e.target.name);
-        } else {
-            url.searchParams.set(e.target.name, e.target.value);
+        if (e.target.matches('.form-control')) {
+            if (e.target.value.length === 0) {
+                url.searchParams.delete(e.target.name);
+            } else {
+                url.searchParams.set(e.target.name, e.target.value);
+            }
+            url.searchParams.delete('page');
+            refreshList();
         }
-        url.searchParams.delete('page');
-        refreshList();
     }, 500));
 
     grace.onchange = e => {
         if (!e.target.checked) {
-                url.searchParams.delete(e.target.name);
+            url.searchParams.delete('grace_period');
         } else {
-            url.searchParams.set(e.target.name, "1");
+            url.searchParams.set('grace_period', "1");
         }
         refreshList();
     }
@@ -97,7 +99,7 @@
         // if (tids.length === 0) {
         //     alert("No renewals selected");
         //     return;
-        // } 
+        // }
         // var task_ids = encodeURIComponent(JSON.stringify(tids));
         let exportUrl = '/renewal/export';
         e.preventDefault(); //stop the browser from following
@@ -187,11 +189,12 @@
     }
 
     function submitUpdate(string, url) {
-        return new Promise(function (resolve, reject)  {
+        return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', url, true);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+            xhr.send(string);
             xhr.onload = function () {
                 if (this.status === 200) {
                     resolve(JSON.parse(this.responseText).success);
@@ -205,7 +208,6 @@
                     reject("Something went wrong");
                 }
             }
-            xhr.send(string);
         });
     }
 
@@ -215,66 +217,27 @@
             alert("No renewals selected for order");
             return;
         }
-        /*let exportUrl = '/renewal/order';
         var string = JSON.stringify({task_ids: tids, clear: false});
-        e.preventDefault(); //stop the browser from following
-        window.location.href = exportUrl;*/
-
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/renewal/order', true);
-        xhr.responseType = 'arraybuffer';
-        xhr.onload = function () {
-            if (this.status === 200) {
-                var filename = "";
-                var disposition = xhr.getResponseHeader('Content-Disposition');
-                if (disposition && disposition.indexOf('attachment') !== -1) {
-                    var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
-                    var matches = filenameRegex.exec(disposition);
-                    if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
-                }
-                var type = xhr.getResponseHeader('Content-Type');
-
-                var blob;
-                if (typeof File === 'function') {
-                    try {
-                        blob = new File([this.response], filename, { type: type });
-                    } catch (e) { /* Edge */ }
-                }
-                if (typeof blob === 'undefined') {
-                    blob = new Blob([this.response], { type: type });
-                }
-
-                if (typeof window.navigator.msSaveBlob !== 'undefined') {
-                    // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-                    window.navigator.msSaveBlob(blob, filename);
-                } else {
-                    var URL = window.URL || window.webkitURL;
-                    var downloadUrl = URL.createObjectURL(blob);
-
-                    if (filename) {
-                        // use HTML5 a[download] attribute to specify filename
-                        var a = document.createElement("a");
-                        // safari doesn't support this yet
-                        if (typeof a.download === 'undefined') {
-                            window.location = downloadUrl;
-                        } else {
-                            a.href = downloadUrl;
-                            a.download = filename;
-                            document.body.appendChild(a);
-                            a.click();
-                        }
-                    } else {
-                        window.location = downloadUrl;
-                    }
-
-                    setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100); // cleanup
-                }
-            }
-        };
-        var string = JSON.stringify({task_ids: tids, clear: false});
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
         xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
         xhr.send(string);
+        xhr.onload = function(e) {
+            if (this.status == 200) {
+                // Find file name
+                var filename = xhr.getResponseHeader('Content-Disposition').split("filename=")[1];
+
+                // The actual download by creating a link and clicking it programmatically
+                var f = new File([xhr.response], filename, { type: xhr.getResponseHeader('Content-Disposition') });
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(f);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
     });
 
     function getSelected() {
@@ -305,11 +268,13 @@
         <span class="lead">
             Manage renewals
         </span>
-        <button id="clearFilters" type="button" class="btn btn-info float-right">&larrpl; Clear filters</button>
+        <button href="/logs" class="btn btn-info float-right">View logs</button>
+        <button id="clearFilters" type="button" class="btn btn-info float-right mr-1">Clear filters</button>
+
     </div>
     <div class="card-header py-1">
         <nav class="mt-1">
-            <div class="nav nav-pills justify-content-center" id="tabsGroup">
+            <div class="nav nav-pills" id="tabsGroup">
                 <a class="nav-item nav-link {{ !$step && !$invoice_step ? 'active' : '' }}" href="#p1" data-toggle="tab" data-step="0">First call</a>
                 <a class="nav-item nav-link {{ $step == 2 ? 'active' : '' }}" href="#p2" data-toggle="tab" data-step="2">Reminder</a>
                 <a class="nav-item nav-link {{ $step == 4 ? 'active' : '' }}" href="#p3" data-toggle="tab" data-step="4">Payment</a>
@@ -327,83 +292,61 @@
         </nav>
         <div class="tab-content mt-1">
             <div class="tab-pane {{ !$step && !$invoice_step ? 'active' : '' }}" id="p1">
-                <div class="container text-right">
-                    <div class="btn-group">
-                        <button class="btn btn-info" type="button" id="callRenewals">Send call email</button>
-                        <button class="btn btn-info" type="button" id="renewalsSent">Call sent manually</button>
-                    </div>
+                <div class="btn-group">
+                    <button class="btn btn-info mr-1" type="button" id="callRenewals">Send call email</button>
+                    <button class="btn btn-info mr-1" type="button" id="renewalsSent">Call sent manually</button>
                 </div>
             </div>
             <div class="tab-pane {{ $step == 2 ? 'active' : '' }}" id="p2">
-                <div class="container text-right">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-info" type="button" id="reminderRenewals">Send reminder email</button>
-                        <button class="btn btn-outline-info" type="button" id="lastReminderRenewals" title="Send reminder and enter grace period">Send last reminder email</button>
-                        <button class="btn btn-info" type="button" id="instructedRenewals" title="Instructions received to pay">Payment order received</button>
-                        <button class="btn btn-info" type="button" id="abandonRenewals" title="Abandon instructions received">Abandon</button>
-                        <button class="btn btn-info" type="button" id="lapsedRenewals" title="Office lapse communication received">Lapsed</button>
-                    </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline-info mr-1" type="button" id="reminderRenewals">Send reminder email</button>
+                    <button class="btn btn-outline-info mr-1" type="button" id="lastReminderRenewals" title="Send reminder and enter grace period">Send last reminder email</button>
+                    <button class="btn btn-info mr-1" type="button" id="instructedRenewals" title="Instructions received to pay">Payment order received</button>
+                    <button class="btn btn-info mr-1" type="button" id="abandonRenewals" title="Abandon instructions received">Abandon</button>
+                    <button class="btn btn-info mr-1" type="button" id="lapsedRenewals" title="Office lapse communication received">Lapsed</button>
                 </div>
             </div>
             <div class="tab-pane {{ $step == 4 ? 'active' : ''}}" id="p3">
-                <div class="container text-right">
-                    <div class="btn-group">
-                        <button class="btn btn-outline-info" type="button" id="xmlRenewals" title="Generate xml files for EP or FR">Download XML order to pay</button>
-                        <button class="btn btn-info" type="button" id='doneRenewals'>Paid</button>
-                    </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline-info mr-1" type="button" id="xmlRenewals" title="Generate xml files for EP or FR">Download XML order to pay</button>
+                    <button class="btn btn-info mr-1" type="button" id='doneRenewals'>Paid</button>
                 </div>
             </div>
             @if (config('renewal.general.receipt_tabs'))
             <div class="tab-pane {{ $step == 6 ? 'active' : ''}}" id="p4">
-                <div class="container text-right">
-                    <button class="btn btn-info" type="button" id="receiptRenewals">Official receipts received</button>
-                </div>
+                  <button class="btn btn-info mr-1" type="button" id="receiptRenewals">Official receipts received</button>
             </div>
             <div class="tab-pane {{ $step == 8 ? 'active' : ''}}" id="p5">
-                <div class="container text-right">
-                    <button class="btn btn-info" type="button" id="sendReceiptsRenewals">Receipts sent</button>
-                </div>
+                  <button class="btn btn-info mr-1" type="button" id="sendReceiptsRenewals">Receipts sent</button>
             </div>
             @endif
             <div class="tab-pane {{ $step == 12 ? 'active' : ''}}" id="p6">
-                <div class="container text-right">
-                    <button class="btn btn-info" type="button" id="lapsingRenewals">Lapse</button>
-                </div>
+                  <button class="btn btn-info mr-1" type="button" id="lapsingRenewals">Lapse</button>
             </div>
             <div class="tab-pane {{ $invoice_step == 1 ? 'active' : ''}}" id="p7">
-                <div class="container text-right">
-                    <div class="btn-group">
-                        @if (config('renewal.invoice.backend') == 'dolibarr')
-                        <button class="btn btn-info" type="button" id="invoiceRenewals">Generate invoice</button>
-                        @endif
-                        <button class="btn btn-outline-info" type="button" id="renewalsExport">Export all</button>
-                        <button class="btn btn-info" type="button" id="renewalsInvoiced">Invoiced</button>
-                    </div>
+                <div class="btn-group">
+                    @if (config('renewal.invoice.backend') == 'dolibarr')
+                    <button class="btn btn-info mr-1" type="button" id="invoiceRenewals">Generate invoice</button>
+                    @endif
+                    <button class="btn btn-outline-info mr-1" type="button" id="renewalsExport">Export all</button>
+                    <button class="btn btn-info mr-1" type="button" id="renewalsInvoiced">Invoiced</button>
                 </div>
             </div>
             <div class="tab-pane {{ $invoice_step == 2 ? 'active' : ''}}" id="p8">
-                <div class="container text-right">
-                    <button class="btn btn-info" type="button" id="invoicesPaid">Paid</button>
-                </div>
+                <button class="btn btn-info mr-1" type="button" id="invoicesPaid">Paid</button>
             </div>
             <div class="tab-pane {{ $step == 14 ? 'active' : ''}}" id="p9">
-                <div class="container text-right">
-                    <button class="btn btn-info" type="button" id="sendLapsedRenewals">Lapse communication sent</button>
-                </div>
+                <button class="btn btn-info mr-1" type="button" id="sendLapsedRenewals">Lapse communication sent</button>
             </div>
             <div class="tab-pane {{ $step == 10 ? 'active' : ''}}" id="p10">
-                <div class="container text-right">
-                    <button class="btn btn-secondary" type="button" disabled>Closed renewals</button>
-                </div>
+                <button class="btn btn-secondary" type="button" disabled>Closed renewals</button>
             </div>
             <div class="tab-pane lead {{ $invoice_step == 3 ? 'active' : ''}}" id="p11">
-                <div class="container text-right">
-                    <button class="btn btn-secondary" type="button" disabled>Paid invoices</button>
-                </div>
+                <button class="btn btn-secondary" type="button" disabled>Paid invoices</button>
             </div>
         </div>
     </div>
-    <div class="card-header py-1">
+    <div class="card-header py-2">
         <div class="row font-weight-bold">
             <div class="input-group"  id="filterFields">
                 <div class="col-2">
@@ -440,14 +383,14 @@
                 </div>
                 <div class="col">
                     <div class="input-group">
-                        <input type="date" class="form-control form-control-sm" name="Fromdate" id="Fromdate" title="From selected date" value="{{ Request::get('Fromdate') }}">                
+                        <input type="date" class="form-control form-control-sm" name="Fromdate" id="Fromdate" title="From selected date" value="{{ Request::get('Fromdate') }}">
                         <input type="date" class="form-control form-control-sm" name="Untildate" id="Untildate" title="Until selected date" value="{{ Request::get('Untildate') }}">
                     </div>
                 </div>
                 <div class="col-1 px-2">
                     <div class="btn-group-toggle" data-toggle="buttons" title="Select/unselect all">
-                        <label class="btn btn-outline-primary btn-sm">
-                            <input name="selectAll" id="selectAll" type="checkbox">&check;
+                        <label class="btn btn-outline-primary far fa-check btn-sm">
+                            <input id="selectAll" type="checkbox">
                         </label>
                     </div>
                 </div>
@@ -496,7 +439,7 @@
                 <td class="col-2 text-center">
                     {{ Carbon\Carbon::parse($task->due_date)->isoFormat('L') }}
                     @if ($task->done)
-                    <div class="badge badge-success" title="Done">&check;</div>
+                    <div class="badge badge-success fas fa check" title="Done">&check;</div>
                     @elseif ($task->due_date < now())
                     <div class="badge badge-danger" title="Overdue">&nbsp;!&nbsp;</div>
                     @elseif ($task->due_date < now()->addWeeks(1))

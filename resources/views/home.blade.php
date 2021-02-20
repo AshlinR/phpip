@@ -2,88 +2,102 @@
 
 @section('content')
 
-<div class="row card-deck">
-  <div class="col-4">
-    <div class="card border-info">
-      <div class="card-header text-white bg-info p-1">
-        <span class="lead">Categories</span>
-        @canany(['admin', 'readwrite'])
-        <a href="/matter/create?operation=new" data-target="#ajaxModal" data-toggle="modal" data-size="modal-sm" class="btn btn-primary float-right" title="Create Matter">Create matter</a>
-        @endcanany
-      </div>
-      <div class="card-body pt-0">
-        <table  class="table table-striped table-sm">
-          <tr>
-            <th></th>
-            <th>Count</th>
-            <td>
+<!-- /.content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">Matter Categories</h3>
               @canany(['admin', 'readwrite'])
-              <span class="float-right text-secondary">New</span>
+              <div class="card-tools">
+                <a class="btn btn-primary btn-sm" href="/matter/create?operation=new" title="Create New Matter" data-target="#ajaxModal" data-toggle="modal" data-size="modal-sm">
+                  <i class="fas fa-plus"></i>
+                </a>
+              </div>
               @endcanany
-            </td>
-          </tr>
-          @foreach ($categories as $group)
-          <tr class="reveal-hidden">
-            <td class="py-0">
-              <a href="/matter?Cat={{ $group->category_code }}">{{ $group->category }}</a>
-            </td>
-            <td class="py-0">
-              {{ $group->total }}
-            </td>
-            <td class="py-0">
-              @canany(['admin', 'readwrite'])
-              <a class="badge badge-primary hidden-action float-right" href="/matter/create?operation=new&category={{$group->category_code}}" data-target="#ajaxModal" title="Create {{ $group->category }}" data-toggle="modal" data-size="modal-sm">
-                &plus;
-              </a>
-              @endcanany
-            </td>
-          </tr>
-          @endforeach
-        </table>
-      </div>
-    </div>
-    <div class="card border-info mt-1">
-      <div class="card-header text-white bg-info p-1">
-        <span class="lead">Users tasks</span>
-        @canany(['admin', 'readwrite'])
-        <button class="btn btn-transparent text-info float-right" disabled>I</button> {{--  This invisible button is only for improving the layout! --}}
-        @endcanany
-      </div>
-      <div class="card-body pt-1">
-        <table class="table table-striped table-sm">
-          <tr>
-            <th></th>
-            <th>Open</th>
-            <th>Hottest</th>
-          </tr>
-        @foreach ($taskscount as $group)
-          @if ($group->no_of_tasks > 0)
-          <tr>
-            <td>
-                <a href="/home?user_dashboard={{ $group->login }}">{{ $group->login }}</a>
-            </td>
-            <td>
-                {{ $group->no_of_tasks }}
-            </td>
-              @if ($group->urgent_date < now())
-            <td class="table-danger">
-            @elseif ($group->urgent_date < now()->addWeeks(2))
-            <td class="table-warning">
-              @else
-            <td>
-              @endif
-                {{ Carbon\Carbon::parse($group->urgent_date)->isoFormat('L') }}
-            </td>
-          </tr>
-          @endif
-        @endforeach
-      </table>
-      </div>
-    </div>
+          </div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-striped table-valign-middle">
+                  <tr>
+                    <th>Type</th>
+                    <th>Count</th>
+                  </tr>
+                  @foreach ($categories as $group)
+                  <tr class="reveal-hidden">
+                    <td class="py-0">
+                      <a href="/matter?Cat={{ $group->category_code }}">{{ $group->category }}</a>
+                    </td>
+                    <td class="py-0">
+                      {{ $group->total }}
+                    </td>
+                    <td class="py-0">
+                      @canany(['admin', 'readwrite'])
+                      <a class="btn btn-sm btn-tool hidden-action float-right" href="/matter/create?operation=new&category={{$group->category_code}}" data-target="#ajaxModal" title="Create {{ $group->category }}" data-toggle="modal" data-size="modal-sm">
+                        <i class="fas fa-plus"></i>
+                      </a>
+                      @endcanany
+                    </td>
+                  </tr>
+                  @endforeach
+                </table>
+              </div>
+            </div>
+          </div>
+            <div class="col-lg-6">
+              <div class="card">
+              <div class="card-header border-0">
+                <h3 class="card-title">Tasks</h3>
+                  @canany(['admin', 'readwrite'])
+                  <div class="card-tools">
+                    <a class="btn btn-primary btn-sm" href="/matter/create?operation=new" data-target="#ajaxModal" data-toggle="modal" data-size="modal-sm">
+                      <i class="fas fa-plus "></i>
+                    </a>
+                    <a href="#" class="btn btn-primary btn-sm">
+                      <i class="fas fa-bars"></i>
+                    </a>
+                  </div>
+                  @endcanany
+              </div>
+              <div class="card-body table-responsive p-0">
+                <table class="table table-striped table-valign-middle">
+                      <tr>
+                        <th>User</th>
+                        <th>Open</th>
+                        <th>Hottest</th>
+                      </tr>
+                        @foreach ($taskscount as $group)
+                          @if ($group->no_of_tasks > 0)
+                          <tr>
+                            <td>
+                                <a href="/home?user_dashboard={{ $group->login }}">{{ $group->login }}</a>
+                            </td>
+                            <td>
+                                {{ $group->no_of_tasks }}
+                            </td>
+                              @if ($group->urgent_date < now())
+                            <td class="table-danger">
+                            @elseif ($group->urgent_date < now()->addWeeks(2))
+                            <td class="table-warning">
+                              @else
+                            <td>
+                              @endif
+                                {{ Carbon\Carbon::parse($group->urgent_date)->isoFormat('L') }}
+                            </td>
+                          </tr>
+                          @endif
+                        @endforeach
+                    </table>
+                  </div>
+                </div>
+              </table>
+            </div>
+          </div>
   </div>
-  <div class="col-8" id="filter">
-    <div class="card border-primary">
-      <div class="card-header text-white bg-primary p-1">
+  <div class="span" id="filter">
+    <div class="card">
+      <div class="card-header border-0">
         <form class="row">
           <div class="lead col-2">
             Open tasks
@@ -92,15 +106,15 @@
           <div class="col-6">
             <div class="input-group">
               <div class="btn-group btn-group-toggle input-group-prepend" data-toggle="buttons">
-                <label class="btn btn-info active">
+                <label class="btn btn-secondary active">
                   <input type="radio" name="what_tasks" id="alltasks" value="0" checked>Everyone
                 </label>
                 @if(!Request::filled('user_dashboard'))
-                <label class="btn btn-info">
+                <label class="btn btn-secondary">
                   <input type="radio" name="what_tasks" id="mytasks" value="1">{{ Auth::user()->login }}
                 </label>
                 @endif
-                <label class="btn btn-info">
+                <label class="btn btn-secondary">
                   <input type="radio" name="what_tasks" id="clientTasks" value="2">Client
                 </label>
               </div>
@@ -139,12 +153,12 @@
           @endcanany
         </div>
       </div>
-      <div class="card-body p-1" id="tasklist">
+      <div class="card-body p-2" id="tasklist">
         {{-- Placeholder --}}
       </div>
     </div>
-    <div class="card border-primary mt-1">
-      <div class="card-header text-white bg-primary p-1">
+    <div class="card">
+      <div class="card-header">
         <div class="row">
           <div class="lead col-8">
             Open renewals
@@ -180,7 +194,7 @@
         </div>
       </div>
 
-      <div class="card-body p-1" id="renewallist">
+      <div class="card-body p-2" id="renewallist">
         {{-- Placeholder --}}
       </div>
     </div>

@@ -3,7 +3,7 @@
     <table class="table table-borderless">
       <tr>
         <td><label for="name" class="required-field" title="{{ $actorComments['name'] }}">Name *</label></td>
-        <td><input class="form-control" name="name" placeholder="NAME Firstname"></td>
+        <td><input class="form-control" name="name" placeholder="LASTNAME Firstname"></td>
         <td><label for="first_name" title="{{ $actorComments['first_name'] }}">First name</label></td>
         <td><input class="form-control" name="first_name" placeholder="Optional"></td>
       </tr>
@@ -13,14 +13,14 @@
 				<td><label for="company_id" title="{{ $actorComments['company_id'] }}">Employer</label></td>
         <td>
 					<input type="hidden"  name="company_id">
-					<input type="text" class="form-control" data-ac="/actor/autocomplete" data-actarget="company_id" autocomplete="off">
+					<input type="text" class="form-control" data-ac="/actor/autocomplete" data-actarget="company_id" autocomplete="on">
 				</td>
       </tr>
       <tr>
         <td><label for="default_role" title="{{ $actorComments['default_role'] }}">Default role</label></td>
         <td>
 					<input type="hidden" name="default_role">
-					<input type="text" class="form-control" data-ac="/role/autocomplete" data-actarget="default_role" autocomplete="off">
+					<input type="text" class="form-control" data-ac="/role/autocomplete" data-actarget="default_role" autocomplete="on">
 				</td>
         <td><label for="function" title="{{ $actorComments['function'] }}">Function</label></td>
         <td><input class="form-control" name="function"></td>
@@ -36,7 +36,7 @@
         <td><label for="country">Country</label></td>
         <td>
 					<input type="hidden" name="country">
-					<input type='text' class="form-control" data-ac="/country/autocomplete" data-actarget="country" autocomplete="off">
+					<input type='text' class="form-control" data-ac="/country/autocomplete" data-actarget="country" autocomplete="on">
 				</td>
       </tr>
       <tr>

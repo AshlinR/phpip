@@ -177,4 +177,56 @@
       return success;
     }
   }
+
+  // File drop zone management
+
+  dropZone.ondragover = function () {
+    this.classList.remove('bg-info');
+    this.classList.add('bg-primary');
+    return false;
+  };
+  dropZone.ondragleave = function () {
+    this.classList.remove('bg-primary');
+    this.classList.add('bg-info');
+    return false;
+  };
+  dropZone.ondrop = function (event) {
+    event.preventDefault();
+    this.classList.add('bg-info');
+    this.classList.remove('bg-primary');
+    var file = event.dataTransfer.files[0];
+    var formData = new FormData();
+    formData.append('file', file);
+    fetch(this.dataset.url, {
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+          "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status == 422) {
+          alert('Only DOCX files can be processed for the moment');
+        }
+        throw new Error('Response status ' + response.status);
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      // Simulate click on a temporary link to perform download
+      var tempLink = document.createElement('a');
+      tempLink.style.display = 'none';
+      tempLink.href = URL.createObjectURL(blob);
+      tempLink.download = "{{ $matter->uid }}-" + file.name;
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    return false;
+  };
 </script>

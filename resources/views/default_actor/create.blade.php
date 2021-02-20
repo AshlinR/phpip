@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <form id="createDActorForm">
   <fieldset>
     <table class="table table-sm">
@@ -28,3 +31,4 @@
   </fieldset>
   <button type="button" id="createDActorSubmit" class="btn btn-primary">Create entry</button><br>
 </form>
+@endsection

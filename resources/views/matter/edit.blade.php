@@ -15,7 +15,7 @@
           @if($cat_edit == 1)
           <input type="text" class="form-control noformat" name="category_code" data-ac="/category/autocomplete" data-aclength="0" placeholder="{{ $matter->category->category }}">
           @else
-          <span title="Cannot be changed because the matter has children">
+          <span title="Cannot be changed because the matter has tasks based on the category">
             {{ $matter->category->category }}
           </span>
           @endif
@@ -32,7 +32,7 @@
           @if($country_edit == 1)
           <input type="text" class="form-control noformat text-truncate" name="country" data-ac="/country/autocomplete" placeholder="{{ $matter->countryInfo->name }}">
           @else
-          <span title="Cannot be changed because the matter has children">
+          <span title="Cannot be changed because the matter has tasks based on the country">
             {{ $matter->countryInfo->name }}
           </span>
           @endif
@@ -71,13 +71,19 @@
       <tr>
         <th>Index</th>
         <td>
-          <input type="text" class="form-control noformat" id="idx" name="idx" value="{{ $matter->idx }}">
+          <input type="text" class="form-control noformat" name="idx" value="{{ $matter->idx }}">
+        </td>
+      </tr>
+      <tr>
+        <th>Alt. ref</th>
+        <td>
+          <input type="text" class="form-control noformat" name="alt_ref" value="{{ $matter->alt_ref }}">
         </td>
       </tr>
       <tr>
         <th>Term adjust (days)</th>
         <td>
-          <input type="text" class="form-control noformat" id="term_adjust" name="term_adjust" value="{{ $matter->term_adjust }}">
+          <input type="text" class="form-control noformat" name="term_adjust" value="{{ $matter->term_adjust }}">
         </td>
       </tr>
     </tbody>

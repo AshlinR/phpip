@@ -125,10 +125,10 @@
 
 @section('content')
 <div class="card border-primary mb-0">
-  <div id="filterButtons" class="card-header bg-primary p-1">
+  <div id="filterButtons" class="card-header bg-default p-1">
     <form class="btn-toolbar" role="toolbar">
       <div class="btn-group-toggle mr-3" data-toggle="buttons">
-        <label id="showContainers" class="btn btn-info {{ Request::get('Ctnr') ? 'active' : '' }}">
+        <label id="showContainers" class="btn btn-primary {{ Request::get('Ctnr') ? 'active' : '' }}">
           <input type="checkbox" name="Ctnr" {{ Request::get('Ctnr') ? 'checked' : '' }}> Show Containers
         </label>
       </div>
@@ -141,12 +141,12 @@
         </label>
       </div>
       <div class="btn-group-toggle mr-3" id="mineAll" data-toggle="buttons">
-        <label id="showResponsible" class="btn btn-info {{ Request::has('responsible') ? 'active' : '' }}" data-responsible="{{ Auth::user()->login }}">
+        <label id="showResponsible" class="btn btn-primary {{ Request::has('responsible') ? 'active' : '' }}" data-responsible="{{ Auth::user()->login }}">
           <input type="checkbox" name="responsible" {{ Request::has('responsible') ? 'checked' : '' }}> Show Mine
         </label>
       </div>
       <div class="btn-group-toggle mr-3" data-toggle="buttons">
-        <label id="includeDead" class="btn btn-info {{ Request::get('include_dead') ? 'active' : '' }}">
+        <label id="includeDead" class="btn btn-warning {{ Request::get('include_dead') ? 'active' : '' }}">
           <input type="checkbox" name="include_dead" {{ Request::get('include_dead') ? 'checked' : '' }}> Include Dead
         </label>
       </div>
@@ -281,7 +281,7 @@
           @else
         <tr class="table-info">
           @endif
-          <td {!! $matter->dead ? 'style="text-decoration: line-through;"' : '' !!}><a href="/matter/{{ $matter->id }}" target="_blank">{{ $matter->Ref }}</a></td>
+          <td {!! $matter->dead ? 'style="text-decoration: line-through;"' : '' !!}><a href="/matter/{{ $matter->id }}" >{{ $matter->Ref }}</a></td>
           <td>{{ $matter->Cat }}</td>
           <td>
             @if ( $published )

@@ -1,9 +1,9 @@
-<div class="card reload-part" style="height: 480px;">
-  <div class="nav nav-pills nav-fill" role="tablist">
-    <a class="nav-item nav-link active p-2" data-toggle="tab" href="#ruleMain" role="tab">Main</a>
-    <a class="nav-item nav-link p-2" data-toggle="tab" href="#ruleConditions" role="tab">Conditions</a>
-    <a class="nav-item nav-link p-2" data-toggle="tab" href="#ruleCost" role="tab">Cost</a>
-    <button id="deleteRule" title="Delete rule" class="nav-item nav-link p-2 btn btn-outline-danger" data-url='/rule/{{ $ruleInfo->id }}' data-message="the rule {{ $ruleInfo->taskInfo->name  }}" >
+<div class="card overflow-auto">
+  <div class="nav nav-pills" role="tablist">
+    <a class="nav-item nav-link active" data-toggle="tab" href="#ruleMain" role="tab">Main</a>
+    <a class="nav-item nav-link" data-toggle="tab" href="#ruleConditions" role="tab">Conditions</a>
+    <a class="nav-item nav-link" data-toggle="tab" href="#ruleCost" role="tab">Cost</a>
+    <button id="deleteRule" title="Delete rule" class="btn btn-outline-danger ml-auto" data-url='/rule/{{ $ruleInfo->id }}' data-message="the rule {{ $ruleInfo->taskInfo->name  }}" >
       Delete
     </button>
   </div>
@@ -79,9 +79,8 @@
         <tr>
           <th><label title="{{ $ruleComments['use_priority'] }}">Use priority</label></th>
           <td><input class="noformat" type="checkbox" name="use_priority" {{ $ruleInfo->use_priority ? 'checked' : '' }}></td>
-          <td colspan="2"></td>
-          {{-- <th><label title="{{ $ruleComments['use_parent'] }}">Use parent</label></th>
-          <td><input class="noformat" type="checkbox" name="use_parent" {{ $ruleInfo->use_parent ? 'checked' : '' }}></td> --}}
+          <th><label title="{{ $ruleComments['recurring'] }}">Recurring</label></th>
+          <td><input class="noformat" type="checkbox" name="recurring" {{ $ruleInfo->recurring ? 'checked' : '' }}></td>
         </tr>
         <tr>
           <th><label title="{{ $ruleComments['condition_event'] }}">Apply if</label></th>
@@ -142,3 +141,6 @@
     </fieldset>
   </div>
 </div>
+
+
+@section('script')

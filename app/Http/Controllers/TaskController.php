@@ -18,6 +18,15 @@ class TaskController extends Controller
         return view('task.index', compact('tasks', 'isrenewals'));
     }
 
+    public function list(Request $request)
+    {
+      $task = new Task;
+      $isrenewals = $request->isrenewals;
+      $tasks = $task->openTasks($isrenewals, $request->what_tasks, $request->user_dashboard)->simplePaginate(18);
+      $tasks->appends($request->input())->links(); // Keep URL parameters in the paginator links
+      return view('task.list', compact('tasks', 'isrenewals'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -66,10 +75,10 @@ class TaskController extends Controller
         if ($request->has('due_date')) {
             $request->merge(['rule_used' => null]);
         }
-        if ($request->has('done_date') || $request->done) {
-            $request->merge(['step' => 10]);
+        // Remove renewal from renewal management pipeline
+        if (($request->has('done_date') || $request->done) && $task->code == 'REN') {
+            $request->merge(['step' => -1]);
         }
-
         $task->update($request->except(['_token', '_method']));
         return $task;
     }

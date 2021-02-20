@@ -69,9 +69,24 @@ class Matter extends Model
         return $this->hasOne('App\MatterActors')->where('role_code', 'CLI');
     }
 
+    public function delegate()
+    {
+        return $this->actors()->where('role_code', 'DEL');
+    }
+
+    public function contact()
+    {
+        return $this->actors()->where('role_code', 'CNT');
+    }
+
     public function applicants()
     {
-        return MatterActors::select(DB::raw("GROUP_CONCAT(name SEPARATOR ', ')"))->where('matter_id', $this->id)->where('role_code', 'APP');
+        return $this->actors()->where('role_code', 'APP');
+    }
+
+    public function owners()
+    {
+        return $this->actors()->where('role_code', 'OWN');
     }
 
     public function actorPivot()
@@ -109,6 +124,12 @@ class Matter extends Model
             ->where('code', 'GRT');
     }
 
+    public function registration()
+    {
+        return $this->hasOne('App\Event')
+            ->where('code', 'REG');
+    }
+
 
     public function entered()
     {
@@ -128,18 +149,25 @@ class Matter extends Model
             ->where('code', 'PRI');
     }
 
+    // All tasks, including renewals and done
+    public function tasks()
+    {
+        return $this->hasManyThrough('App\Task', 'App\Event', 'matter_id', 'trigger_id', 'id');
+    }
+    
+    // Pending excluding renewals
     public function tasksPending()
     {
-        // Excludes renewals
-        return $this->hasManyThrough('App\Task', 'App\Event', 'matter_id', 'trigger_id', 'id')
+        return $this->tasks()
             ->where('task.code', '!=', 'REN')
             ->where('done', 0)
             ->orderBy('due_date');
     }
 
+    // Pending renewals
     public function renewalsPending()
     {
-        return $this->hasManyThrough('App\Task', 'App\Event', 'matter_id', 'trigger_id', 'id')
+        return $this->tasks()
             ->where('task.code', 'REN')
             ->where('done', 0)
             ->orderBy('due_date');
@@ -206,6 +234,7 @@ class Matter extends Model
             'agtlnk.actor_ref AS AgtRef',
             'tit1.value AS Title',
             'tit2.value AS Title2',
+            'tit3.value AS Title3',
             DB::raw("CONCAT_WS(' ', inv.name, inv.first_name) as Inventor1"),
             'fil.event_date AS Filed',
             'fil.detail AS FilNo',
@@ -220,7 +249,7 @@ class Matter extends Model
             'matter.responsible',
             'del.login AS delegate',
             'matter.dead',
-            DB::raw("IF(isnull(matter.container_id),1,0) AS Ctnr")
+            DB::raw("IF(isnull(matter.container_id), 1, 0) AS Ctnr")
         )
         ->join('matter_category', 'matter.category_code', 'matter_category.code')
         ->leftJoin(
@@ -283,6 +312,8 @@ class Matter extends Model
             JOIN classifier_type ct1 ON tit1.type_code = ct1.code AND ct1.main_display = 1 AND ct1.display_order = 1'), DB::raw('IFNULL(matter.container_id, matter.id)'), 'tit1.matter_id')
         ->leftJoin(DB::raw('classifier tit2
             JOIN classifier_type ct2 ON tit2.type_code = ct2.code AND ct2.main_display = 1 AND ct2.display_order = 2'), DB::raw('IFNULL(matter.container_id, matter.id)'), 'tit2.matter_id')
+        ->leftJoin(DB::raw('classifier tit3
+            JOIN classifier_type ct3 ON tit3.type_code = ct3.code AND ct3.main_display = 1 AND ct3.display_order = 3'), DB::raw('IFNULL(matter.container_id, matter.id)'), 'tit3.matter_id')
         ->where('e2.matter_id', null);
 
 
@@ -330,7 +361,10 @@ class Matter extends Model
                 if ($value != '') {
                     switch ($key) {
                         case 'Ref':
-                            $query->where('uid', 'LIKE', "$value%");
+                            $query->where(function ($q) use ($value) {
+                                $q->where('uid', 'LIKE', "$value%")
+                                    ->orWhere('alt_ref', 'LIKE', "$value%");
+                            });
                             break;
                         case 'Cat':
                             $query->where('category_code', 'LIKE', "$value%");
@@ -360,7 +394,7 @@ class Matter extends Model
                             $query->where('agtlnk.actor_ref', 'LIKE', "$value%");
                             break;
                         case 'Title':
-                            $query->where(DB::Raw('concat_ws(" ", tit1.value, tit2.value)'), 'LIKE', "%$value%");
+                            $query->where(DB::Raw('concat_ws(" ", tit1.value, tit2.value, tit3.value)'), 'LIKE', "%$value%");
                             break;
                         case 'Inventor1':
                             $query->where('inv.name', 'LIKE', "$value%");

@@ -1,11 +1,12 @@
-<div class="card overflow-auto" style="height: 480px;">
+
+<div class="card overflow-auto" style="height: 800px;">
   <div class="nav nav-pills" role="tablist">
     <a class="nav-item nav-link active" data-toggle="tab" href="#actorMain" role="tab">Main</a>
     <a class="nav-item nav-link" data-toggle="tab" href="#actorContact" role="tab">Contact</a>
     <a class="nav-item nav-link" data-toggle="tab" href="#actorOther" role="tab">Other</a>
     <a class="nav-item nav-link" data-toggle="tab" id="actorUsedInToggle" href="/actor/{{ $actorInfo->id }}/usedin" data-target="#actorUsedIn" role="tab">Used in</a>
     @canany(['admin', 'readwrite'])
-    <button id="deleteActor" title="Delete actor" class="nav-item nav-link btn btn-outline-danger"  data-url='/actor/{{ $actorInfo->id }}' data-message="the actor {{ $actorInfo->name }}">
+    <button id="deleteActor" title="Delete actor" class="btn btn-outline-danger ml-auto"  data-url='/actor/{{ $actorInfo->id }}' data-message="the actor {{ $actorInfo->name }}">
       Delete
     </button>
     @endcanany
@@ -31,11 +32,11 @@
         </tr>
         <tr>
           <th>Country</th>
-          <td><input type='text' class="noformat form-control" name="country" data-ac="/country/autocomplete" value="{{ empty($actorInfo->countryInfo) ? '' : $actorInfo->countryInfo->name }}" placeholder="-" autocomplete="off"></td>
+          <td><input type='text' class="noformat form-control" name="country" data-ac="/country/autocomplete" value="{{ empty($actorInfo->countryInfo) ? '' : $actorInfo->countryInfo->name }}" placeholder="-" autocomplete="on"></td>
         </tr>
         <tr>
           <th>Nationality</th>
-          <td><input type="text" class="noformat form-control" name="nationality" data-ac="/country/autocomplete" value="{{ empty($actorInfo->nationalityInfo) ? '' : $actorInfo->nationalityInfo->name }}" placeholder="-" autocomplete="off"></td>
+          <td><input type="text" class="noformat form-control" name="nationality" data-ac="/country/autocomplete" value="{{ empty($actorInfo->nationalityInfo) ? '' : $actorInfo->nationalityInfo->name }}" placeholder="-" autocomplete="on"></td>
         </tr>
         <tr>
           <th>Language</th>
