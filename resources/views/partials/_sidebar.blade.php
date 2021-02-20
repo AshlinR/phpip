@@ -6,7 +6,7 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar bg-default sidebar-light-primary elevation-4">
+<aside class="main-sidebar bg-default sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
     <a href="index.php" class="brand-link">
       <span class="brand-text font-important">{{ config('app.name', 'phpIP') }}</span>
@@ -41,7 +41,7 @@
 
         <!-- Dashboard -->
         <li class="nav-item">
-         <a class="nav-link" href= {{ route('home') }}>
+         <a class="nav-link active" href= {{ route('home') }}>
            <i class="nav-icon fas fa-tachometer-alt"></i>
            <p>
              Dashboard
@@ -81,7 +81,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{ url('/matter') }}" class="nav-link">
+              <a href="{{ url('/matter') }}" data-toggle="tab" class="nav-link">
                 <i class="fas fa-folder-open nav-icon"></i>
                 <p>All</p>
               </a>

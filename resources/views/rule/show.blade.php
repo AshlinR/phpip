@@ -1,6 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
 <div class="card overflow-auto">
   <div class="nav nav-pills" role="tablist">
     <a class="nav-item nav-link active" data-toggle="tab" href="#ruleMain" role="tab">Main</a>
@@ -145,6 +142,5 @@
   </div>
 </div>
 
-@endsection
 
 @section('script')
